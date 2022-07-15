@@ -9,7 +9,6 @@ async function handler(req, res) {
 
   const data = req.body
   const { email, password } = data
-  console.log('Hi')
 
   if (!email || !email.includes('@') || !password || password.trim().length < 7) {
     res.status(422).json({ message: 'Invalid input.' })
@@ -20,7 +19,7 @@ async function handler(req, res) {
 
   const result = await db.collection('users').insertOne({
     email: email,
-    password: hashPassword(password),
+    password: await hashPassword(password),
   })
 
   res.status(201).json({ message: 'Create user!' })
